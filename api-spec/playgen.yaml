@@ -1,0 +1,125 @@
+openapi: 3.0.0
+info:
+  description: API to assist with simulation by generating random plays from NFL games
+  version: "1.0.0"
+  title: NFL Play Generator API
+  contact:
+    email: bsatterwhite@gmail.com
+  license:
+    name: MIT
+    url: 'https://github.com/bsatterwhite3/nfl-play-gen-api/blob/master/LICENSE'
+tags:
+  - name: plays
+    description: NFL Play Generator endpoints
+paths:
+  /plays:
+    get:
+      tags:
+        - plays
+      summary: retrieves random play(s) that satisfy specified filters
+      operationId: getPlays
+      description: |
+        Retrieve one or more random plays and optionally use filters to get
+        for more specific situations.
+      parameters:
+        - in: query
+          name: numPlays
+          description: the number of plays to sample
+          schema:
+            type: integer
+            default: 1
+        - in: query
+          name: playType
+          description: optional filter for play type
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: withReplacement
+          description: determines whether random sampling will be done with replacement
+          schema:
+            type: boolean
+            default: true
+        - in: query
+          name: fieldPosition
+          description: indicator for where on the field the play is occurring
+          schema:
+            type: string
+            enum: [behind20, between20s, redzone, goalline]
+      responses:
+        '200':
+          description: group of plays matching filter criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Play'
+        '400':
+          description: bad input parameter
+        '404':
+          description: no data found matching provided filters
+        '500':
+          description: encountered API failure
+components:
+  schemas:
+    Play:
+      type: object
+      required:
+        - desc
+        - down
+        - epa
+        - game_id
+        - game_seconds_remaining
+        - goal_to_go
+        - passing
+        - penalty
+        - play_type
+        - rushing
+        - success
+        - yardline_100
+        - ydstogo
+      properties:
+        desc:
+          type: string
+          example: "(1:36) (No Huddle, Shotgun) 28-D.Martin up the middle to DEN 39 for 11 yards (54-B.Marshall)."
+        down:
+          type: number
+          example: 1.0
+        epa:
+          type: number
+          example: 0.4
+        game_id:
+          type: string
+          example: "2018_16_DEN_OAK"
+        game_seconds_remaining:
+          type: number
+          example: 1800.0
+        goal_to_go:
+          type: integer
+          format: binary
+          example: 0
+        penalty:
+          type: integer
+          format: binary
+          nullable: true
+          example: 0
+        passing:
+          type: integer
+          format: binary
+          example: 0
+        rushing:
+          type: integer
+          format: binary
+          example: 1
+        success:
+          type: integer
+          format: binary
+          nullable: true
+          example: 1
+        yardline_100:
+          type: number
+          example: 50.0
+        ydstogo:
+          type: integer
+          example: 10

@@ -86,10 +86,10 @@ class PlaySampler(object):
                 down=row.down,
                 yardline_100=row.yardline_100,
                 game_seconds_remaining=row.game_seconds_remaining,
-                passing=row['pass'], # pass is a reserved keyword in python
-                rushing=row.rush,
+                passing=int(row['pass']),  # pass is a reserved keyword in python
+                rushing=int(row.rush),
                 penalty=row.penalty,
-                goal_to_go=row.goal_to_go,
+                goal_to_go=int(row.goal_to_go),
                 ydstogo=row.ydstogo,
                 desc=row.desc,
                 success=row.success,
