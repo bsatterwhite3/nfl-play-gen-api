@@ -34,10 +34,10 @@ class FieldPositionFilter(Filter):
         logger.info(f"Applying field position filter to DF for field_position={self.field_position}")
 
         field_ranges = {
-            'behind20': [0, 19],
+            'behind20': [81, 100],
             'between20s': [20, 80],
-            'redzone': [81, 100],
-            'goalline': [97, 100]
+            'redzone': [0, 19],
+            'goalline': [0, 3]
         }
         positions = field_ranges[self.field_position]
         filtered_df = df[df['yardline_100'].between(positions[0], positions[1])]
