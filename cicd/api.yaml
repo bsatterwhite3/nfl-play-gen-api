@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nfl-play-gen-api
+  name: nfl-play-gen-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nfl-play-gen-api
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nfl-play-gen-api
+    spec:
+      containers:
+      - image: playgen:0.0.3
+        name: nfl-play-gen-api
+        imagePullPolicy: IfNotPresent
+        resources: {}
+        ports:
+          - containerPort: 5000
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nfl-play-gen-api
+  labels:
+    run: nfl-play-gen-api
+spec:
+  ports:
+  - port: 5000
+    targetPort: 5000
+    nodePort: 30007
+  selector:
+    app: nfl-play-gen-api
+  type: LoadBalancer

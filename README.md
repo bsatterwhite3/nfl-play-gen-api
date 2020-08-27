@@ -15,8 +15,8 @@ in the local api-spec folder.
 ### Example Use
 To test out the API, run the following terminal commands from the root folder:
 ```
-docker build -t  playgen .     # Build image
-docker run -d -p 5000:5000     # Run in detached mode and expose port 5000
+docker build -t playgen .     # Build image
+docker run -d -p 5000:5000 playgen     # Run in detached mode and expose port 5000
 curl http://0.0.0.0:5000/plays # GET request for /plays endpoint 
 ```
 
